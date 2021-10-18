@@ -2,12 +2,12 @@ use std::{time::Duration, thread::sleep};
 
 const CLEAR: &str = "\x1B[2J\x1B[1;1H";
 
-fn progress(v: Vec<i32>) {
+fn progress<T>(v: Vec<T>, f: fn(&T) -> ()) {
     let mut i = 1;
     for n in v.iter() {
         println!("{}{}", CLEAR, "*".repeat(i));
         i += 1;
-        expensive_calculation(n);
+        f(n);
     }
 }
 
@@ -17,5 +17,5 @@ fn expensive_calculation(_n: &i32) {
 
 fn main() {
     let v = vec![1, 2, 3];
-    progress(v);
+    progress(v, expensive_calculation);
 }
